@@ -1,9 +1,10 @@
-contract Badge is IBadge {
-    // Badge's name
-    string private _name;
+contract NonTransferableTemplate is INonTransferableToken {
 
-    // Badge's symbol
+    ERC721 internal immutable nouns;
+    string private _name;
     string private _symbol;
+
+    event Gifted(uint256 indexed tokenId, address indexed claimer);
 
     // Mapping from token ID to owner's address
     mapping(bytes32 => address) private _owners;
@@ -11,17 +12,19 @@ contract Badge is IBadge {
     // Mapping from owner's address to token ID
     mapping(address => bytes32) private _tokens;
 
+    mapping(uint256 => bool) public hasGifted;
+
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
     }
 
-    // Returns the badge's name
+    // Returns the name
     function name() public view virtual override returns (string memory) {
         return _name;
     }
 
-    // Returns the badge's symbol
+    // Returns the symbol
     function symbol() public view virtual override returns (string memory) {
         return _symbol;
     }
@@ -62,16 +65,20 @@ contract Badge is IBadge {
     }
 
     // @dev Mints `tokenId` and transfers it to `to`.
-    function _mint(address to, bytes32 tokenId) internal virtual {
+    function gift(uint256 nounId, address to, bytes32 tokenId) external {
+        require(nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner";
+        require(!hasGifted[nounId]), "This Noun has already gifted someone";
+        
         require(to != address(0), "Invalid owner at zero address");
         require(tokenId != 0, "Token ID cannot be zero");
         require(!_exists(tokenId), "Token already minted");
         require(tokenOf(to) == 0, "Owner already has a token");
 
+        hasClaimed[nounId] = true;
         _tokens[to] = tokenId;
         _owners[tokenId] = to;
 
-        emit Minted(to, tokenId, block.timestamp);
+        emit Gifted(msg.sender, nounId, to, tokenId, block.timestamp);
     }
 
     // @dev Burns `tokenId`.
