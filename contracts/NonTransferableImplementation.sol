@@ -1,10 +1,18 @@
-contract NonTransferableTemplate is INonTransferableToken {
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.9;
 
-    ERC721 internal immutable nouns;
+import "@openzeppelin/contracts/interfaces/IERC721.sol";
+import "./INonTransferableImplementation.sol";
+
+contract NonTransferableImplementation is INonTransferableImplementation {
+
+    address internal immutable _nouns;
     string private _name;
     string private _symbol;
+    bool public isInitialized;
 
-    event Gifted(uint256 indexed tokenId, address indexed claimer);
+    event Gifted(address indexed gifter, uint256 indexed nounId, address indexed gifted, uint256 indexed tokenId, uint256 timestamp);
+    event Burned(address indexed owner, uint256 tokenId, uint256 timestamp);
 
     // Mapping from token ID to owner's address
     mapping(bytes32 => address) private _owners;
@@ -12,11 +20,19 @@ contract NonTransferableTemplate is INonTransferableToken {
     // Mapping from owner's address to token ID
     mapping(address => bytes32) private _tokens;
 
+    //Mapping from noun ID to giftingState
     mapping(uint256 => bool) public hasGifted;
 
-    constructor(string memory name_, string memory symbol_) {
-        _name = name_;
-        _symbol = symbol_;
+     function init(
+        string name,
+        string symbol,
+        address nouns,
+    ) external {
+        require(!isInitialized, "Contract already initialized!");
+        isInitialized = true;
+        _name = name;
+        _symbol = sumbol;
+        _nouns = nouns;
     }
 
     // Returns the name
@@ -64,9 +80,9 @@ contract NonTransferableTemplate is INonTransferableToken {
         return _owners[tokenId] != address(0);
     }
 
-    // @dev Mints `tokenId` and transfers it to `to`.
+    // Mints `tokenId` and transfers it to `to`.
     function gift(uint256 nounId, address to, bytes32 tokenId) external {
-        require(nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner";
+        require(_nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner";
         require(!hasGifted[nounId]), "This Noun has already gifted someone";
         
         require(to != address(0), "Invalid owner at zero address");
