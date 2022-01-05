@@ -5,9 +5,7 @@ interface INonTransferableImplementation {
     // @dev Emitted when `tokenId` token is minted to `to`, an address.
     event Gifted(
         address indexed gifter,
-        uint256 indexed nounId,
         address indexed gifted,
-        bytes32 indexed tokenId,
         uint256 timestamp
     );
 

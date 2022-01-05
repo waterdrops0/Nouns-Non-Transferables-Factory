@@ -6,13 +6,10 @@ import "./INonTransferableImplementation.sol";
 
 contract NonTransferableImplementation is INonTransferableImplementation {
 
-    address internal immutable _nouns;
+    IERC721 public _nouns;
     string private _name;
     string private _symbol;
     bool public isInitialized;
-
-    event Gifted(address indexed gifter, uint256 indexed nounId, address indexed gifted, uint256 indexed tokenId, uint256 timestamp);
-    event Burned(address indexed owner, uint256 tokenId, uint256 timestamp);
 
     // Mapping from token ID to owner's address
     mapping(bytes32 => address) private _owners;
@@ -24,14 +21,14 @@ contract NonTransferableImplementation is INonTransferableImplementation {
     mapping(uint256 => bool) public hasGifted;
 
      function init(
-        string name,
-        string symbol,
-        address nouns,
+        string calldata name_,
+        string calldata symbol_,
+        IERC721 nouns
     ) external {
         require(!isInitialized, "Contract already initialized!");
         isInitialized = true;
-        _name = name;
-        _symbol = sumbol;
+        _name = name_;
+        _symbol = symbol_;
         _nouns = nouns;
     }
 
@@ -82,24 +79,24 @@ contract NonTransferableImplementation is INonTransferableImplementation {
 
     // Mints `tokenId` and transfers it to `to`.
     function gift(uint256 nounId, address to, bytes32 tokenId) external {
-        require(_nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner";
-        require(!hasGifted[nounId]), "This Noun has already gifted someone";
+        require(_nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner");
+        require(!hasGifted[nounId], "This Noun has already gifted someone");
         
         require(to != address(0), "Invalid owner at zero address");
         require(tokenId != 0, "Token ID cannot be zero");
         require(!_exists(tokenId), "Token already minted");
         require(tokenOf(to) == 0, "Owner already has a token");
 
-        hasClaimed[nounId] = true;
+        hasGifted[nounId] = true;
         _tokens[to] = tokenId;
         _owners[tokenId] = to;
 
-        emit Gifted(msg.sender, nounId, to, tokenId, block.timestamp);
+        emit Gifted(msg.sender, to, block.timestamp);
     }
 
     // @dev Burns `tokenId`.
     function _burn(bytes32 tokenId) internal virtual {
-        address owner = Badge.ownerOf(tokenId);
+        address owner = NonTransferableImplementation.ownerOf(tokenId);
 
         delete _tokens[owner];
         delete _owners[tokenId];
