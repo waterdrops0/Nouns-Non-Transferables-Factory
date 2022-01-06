@@ -1,6 +1,6 @@
-# Basic Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+
+Still under construction.. contributions encouraged!This project demonstrates a basic deployment using @openzeppelin clones https://github.com/OpenZeppelin/workshops/tree/master/02-contracts-cloneuse.
 
 Try running some of the following tasks:
 
