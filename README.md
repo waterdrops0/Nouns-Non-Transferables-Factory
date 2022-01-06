@@ -1,4 +1,4 @@
 #### nouns-non-tranferables-factory
 
-## under construction.. contributions encouraged
+## under construction.. contributions are encouraged
 
