@@ -1,15 +1,5 @@
-# Basic Sample Hardhat Project
+# nouns-non-tranferables-factory
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+##### Under construction.. contributions are encouraged..
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+![404noun](https://user-images.githubusercontent.com/22319741/148448835-2efcf9d7-eaa8-4890-96a0-38eb401234a5.png)
