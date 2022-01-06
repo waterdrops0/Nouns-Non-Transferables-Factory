@@ -1,21 +1,35 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+// SPDX-License-Identifier: GPL-3.0
+
+/// @title The Nouns ERC-721 token
+
+/*********************************
+ * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+ * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+ * ░░░░░░█████████░░█████████░░░ *
+ * ░░░░░░██░░░████░░██░░░████░░░ *
+ * ░░██████░░░████████░░░████░░░ *
+ * ░░██░░██░░░████░░██░░░████░░░ *
+ * ░░██░░██░░░████░░██░░░████░░░ *
+ * ░░░░░░█████████░░█████████░░░ *
+ * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+ * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
+ *********************************/
 
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 import "./INonTransferableImplementation.sol";
 
-contract NonTransferableImplementation is INonTransferableImplementation {
-
+contract NonTransferableImplementation is Ennumerable, INonTransferableImplementation {
     IERC721 public _nouns;
     string private _name;
     string private _symbol;
+    uint256 private _currentId;
     bool public isInitialized;
 
     // Mapping from token ID to owner's address
-    mapping(bytes32 => address) private _owners;
+    mapping(uint256 => address) private _owners;
 
     // Mapping from owner's address to token ID
-    mapping(address => bytes32) private _tokens;
+    mapping(address => uint256) private _tokens;
 
     //Mapping from noun ID to giftingState
     mapping(uint256 => bool) public hasGifted;
@@ -23,13 +37,15 @@ contract NonTransferableImplementation is INonTransferableImplementation {
      function init(
         string calldata name_,
         string calldata symbol_,
-        IERC721 nouns
+        address nouns
+
     ) external {
-        require(!isInitialized, "Contract already initialized!");
+        require(!isInitialized, "Already initialized!");
         isInitialized = true;
         _name = name_;
         _symbol = symbol_;
-        _nouns = nouns;
+        IERC721 nouns_ = IERC721(nouns);
+        _nouns = nouns_;
     }
 
     // Returns the name
@@ -77,19 +93,22 @@ contract NonTransferableImplementation is INonTransferableImplementation {
         return _owners[tokenId] != address(0);
     }
 
-    // Mints `tokenId` and transfers it to `to`.
-    function gift(uint256 nounId, address to, bytes32 tokenId) external {
-        require(_nouns.ownerOf(nounId) != msg.sender, "msg.sender is not a Noun owner");
-        require(!hasGifted[nounId], "This Noun has already gifted someone");
+    // Mints `tokenId`and transfers it to `to`.   ⌐◨-◨
+    function gift(uint256 nounId, address to) external {
+        require(_nouns.ownerOf(nounId) != msg.sender, "Failed noun ownership verification!");
+
+        require(!hasGifted[nounId], "This noun has already gifted someone!");
         
-        require(to != address(0), "Invalid owner at zero address");
-        require(tokenId != 0, "Token ID cannot be zero");
-        require(!_exists(tokenId), "Token already minted");
-        require(tokenOf(to) == 0, "Owner already has a token");
+        require(to != address(0), "Invalid receiver at zero address");
+
+        require(tokenId != 0, "The id cannot be zero");
+
+        require(!_exists(tokenId), "The id has already been minted");
 
         hasGifted[nounId] = true;
-        _tokens[to] = tokenId;
-        _owners[tokenId] = to;
+        _tokens[to] = currentId;
+        _owners[currentId] = to;
+        currentId++;
 
         emit Gifted(msg.sender, to, block.timestamp);
     }

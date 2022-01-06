@@ -7,12 +7,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./NonTransferableImplementation.sol";
 
 contract NounishFactory is Ownable {
-    IERC721 immutable _NOUNS;
+    address immutable _NOUNS;
     address immutable nontransferableImplementation;
     NonTransferableImplementation[] public drops;
     event CreateDrop(address dropAddress);
 
-    constructor(IERC721 nouns) {
+    constructor(address nouns) {
         _NOUNS = nouns;
         nontransferableImplementation = address(new NonTransferableImplementation());
     }
