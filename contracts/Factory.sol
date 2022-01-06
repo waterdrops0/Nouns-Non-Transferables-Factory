@@ -17,7 +17,7 @@ contract NounishFactory is Ownable {
         nontransferableImplementation = address(new NonTransferableImplementation());
     }
 
-    function createDrop(
+    function createAsset(
         string calldata _name,
         string calldata _symbol
 
