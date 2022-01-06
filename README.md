@@ -2,8 +2,6 @@
 
 Still under construction.. contributions encouraged!This project demonstrates a basic deployment using @openzeppelin clones https://github.com/OpenZeppelin/workshops/tree/master/02-contracts-cloneuse.
 
-Try running some of the following tasks:
-
 ```shell
 npx hardhat accounts
 npx hardhat compile
