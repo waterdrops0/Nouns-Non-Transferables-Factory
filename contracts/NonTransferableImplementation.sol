@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
 
-/// @title The Nouns ERC-721 token
-
 /*********************************
  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
@@ -14,6 +12,8 @@
  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
  * ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ *
  *********************************/
+ 
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 import "./INonTransferableImplementation.sol";
@@ -100,10 +100,6 @@ contract NonTransferableImplementation is Ennumerable, INonTransferableImplement
         require(!hasGifted[nounId], "This noun has already gifted someone!");
         
         require(to != address(0), "Invalid receiver at zero address");
-
-        require(tokenId != 0, "The id cannot be zero");
-
-        require(!_exists(tokenId), "The id has already been minted");
 
         hasGifted[nounId] = true;
         _tokens[to] = currentId;
