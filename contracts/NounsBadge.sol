@@ -15,10 +15,10 @@
 
 pragma solidity ^0.8.11;
 
-import {ERC721Enumerable, ERC721, IERC721} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import {ERC721BadgeEnumerable, ERC721Badge, IERC721} from "./base/ERC721BadgeEnumerable.sol";
 import "./interfaces/INounsBadge.sol";
 
-contract NounsBadge is INounsBadge, ERC721Enumerable {
+contract NounsBadge is INounsBadge, ERC721BadgeEnumerable {
     IERC721 public immutable nouns;
 
     /// @notice See {INounsBadge.tokenOf}.
@@ -27,7 +27,7 @@ contract NounsBadge is INounsBadge, ERC721Enumerable {
     /// @notice See {INounsBadge.hasGifted}.
     mapping(uint256 => bool) public hasGifted;
 
-    constructor (IERC721 nouns_) ERC721("Nouns Badge", "NOUNBADGE") {
+    constructor (IERC721 nouns_) ERC721Badge("Nouns Badge", "NOUNBADGE") {
         nouns = nouns_;
     }
 
