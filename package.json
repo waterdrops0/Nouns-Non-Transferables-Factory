@@ -1,17 +1,16 @@
 {
-  "dependencies": {
-    "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openzeppelin/contracts": "^4.4.1",
-    "@openzeppelin/contracts-upgradeable": "^4.4.1",
-    "hardhat": "^2.8.0"
-  },
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.3",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "chai": "^4.3.4",
-    "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.5.2",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
-  }
+	"devDependencies": {
+		"@nomiclabs/hardhat-web3": "^2.0.0",
+		"@openzeppelin/contracts": "^4.4.1",
+		"@openzeppelin/contracts-upgradeable": "^4.4.1",
+		"hardhat": "^2.8.0",
+		"@nomiclabs/hardhat-ethers": "^2.0.3",
+		"@nomiclabs/hardhat-waffle": "^2.0.1",
+		"chai": "^4.3.4",
+		"dotenv": "^10.0.0",
+		"ethereum-waffle": "^3.4.0",
+		"ethers": "^5.5.2",
+		"ts-node": "^10.4.0",
+		"typescript": "^4.5.4"
+	}
 }
