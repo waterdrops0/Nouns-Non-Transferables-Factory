@@ -44,8 +44,7 @@ contract NonTransferableImplementation is Ennumerable, INonTransferableImplement
         isInitialized = true;
         _name = name_;
         _symbol = symbol_;
-        IERC721 nouns_ = IERC721(nouns);
-        _nouns = nouns_;
+        nouns_ = IERC721(nouns);
     }
 
     // Returns the name
